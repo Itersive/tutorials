@@ -119,7 +119,7 @@ http://localhost:8081 - jenkins
 * Configure first job:
     * on `http://localhost:8081/view/all/newJob` choose default project
     * in triggers mark `Gerrit event`, choose server, trigger and project (all project should be visible in list), my setup:
-    ![Gerrit Trigger](/gerrit_trigger.png)
+    ![Gerrit Trigger](gerrit_trigger.png)
     * add `Execute shell` in build section with for example `echo $GERRIT_CHANGE_SUBJECT`
     * save
 
