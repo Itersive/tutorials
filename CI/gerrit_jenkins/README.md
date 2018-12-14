@@ -128,12 +128,12 @@ http://localhost:8081 - jenkins
     * there should be only one commit
     ```
     > git log
-commit c04bece9bbee4831d33439108cdec45064ddd90d (HEAD -> master, origin/master, origin/HEAD)
-Author: Administrator <admin@example.com>
-Date:   Fri Dec 14 17:04:24 2018 +0000
+    commit c04bece9bbee4831d33439108cdec45064ddd90d (HEAD -> master, origin/master, origin/HEAD)
+    Author: Administrator <admin@example.com>
+    Date:   Fri Dec 14 17:04:24 2018 +0000
 
     Initial empty repository
-```
+    ```
     * make some changes, for example create empty file `test`
     * `git add test`
     * `git commit` and add message
@@ -151,16 +151,15 @@ Date:   Fri Dec 14 17:04:24 2018 +0000
     * add there this code
     ```
     node {
-    stage('First stage') {
-        print 'Hello world'
+        stage('First stage') {
+            print 'Hello world'
+        }
+        
+        stage('Second stage') {
+            print params.GERRIT_CHANGE_SUBJECT
+        }
     }
-    
-     stage('Second stage') {
-        print params.GERRIT_CHANGE_SUBJECT
-    }
-
-}
-```
+    ```
     * add, commit and push it to gerrit
     * give +2 and submit change on gerrit
     * go to Jenkins
