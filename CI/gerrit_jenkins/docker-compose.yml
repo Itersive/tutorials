@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  # Gerrit
+  gerrit:
+    image: gerritcodereview/gerrit
+    volumes:
+       - git-volume:/var/gerrit/git
+       - index-volume:/var/gerrit/index
+       - cache-volume:/var/gerrit/cache
+    ports:
+       - "29418:29418"
+       - "8080:8080"
+    container_name: gerrit
+
+  # Jenkins
+  jenkins:
+    image: jenkins/jenkins # to use the latest weekly or jenkins/jenkins:lts to use latest LTS
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    ports:
+      - "50000:50000"
+      - "8081:8080"
+    links:
+      - gerrit
+    container_name: jenkins
+
+
+volumes:
+  git-volume:
+  index-volume:
+  cache-volume:
+  jenkins_home:
