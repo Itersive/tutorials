@@ -1,0 +1,10 @@
+node {
+    stage('First stage') {
+        print 'Hello world'
+    }
+    
+     stage('Second stage') {
+        print params.GERRIT_CHANGE_SUBJECT
+    }
+
+}
