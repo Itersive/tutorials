@@ -20,12 +20,14 @@ services:
   gerrit:
     image: gerritcodereview/gerrit
     volumes:
-       - git-volume:/var/gerrit/git
-       - index-volume:/var/gerrit/index
-       - cache-volume:/var/gerrit/cache
+      - git-volume:/var/gerrit/git
+      - index-volume:/var/gerrit/index
+      - cache-volume:/var/gerrit/cache
     ports:
-       - "29418:29418"
-       - "8080:8080"
+      - "29418:29418"
+      - "8080:8080"
+    environment:
+      - CANONICAL_WEB_URL=http://localhost:8080
     container_name: gerrit
 
   # Jenkins
@@ -46,6 +48,7 @@ volumes:
   index-volume:
   cache-volume:
   jenkins_home:
+
 ```
 
 This file contains 2 services - gerrit and jenkins and 4 volumes which are used in mentioned services for saving data between restarts.
@@ -124,7 +127,7 @@ http://localhost:8081 - jenkins
     * save
 
 * Test it
-    * from `http://localhost:8080/admin/repos/your_repository_name` get command for cloning repository with commit-msg hook (I didn't set proper URL for Gerrit and now we have to fix URL in this command, change it to localhost:8080)
+    * from `http://localhost:8080/admin/repos/your_repository_name` get command for cloning repository with commit-msg hook
     * there should be only one commit
     ```
     > git log
