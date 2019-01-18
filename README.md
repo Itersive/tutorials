@@ -10,8 +10,10 @@ Feel free to explore.
 # Available tutorials
 
 * [Gerrit with Jenkins on Docker](https://github.com/Itersive/tutorials/tree/master/CI/gerrit_jenkins)
+* [MongoDB backup and restore scripts](https://github.com/Itersive/tutorials/tree/master/Backups/MongoDB)
 * [Video tutorials about Spring Framework and other things](https://github.com/Itersive/tutorials/tree/master/Spring/tutorial) (on [Youtube](https://www.youtube.com/channel/UC-bxxY0iexL5Ox5eaxvWRqA) in polish)
 
 # Tutorials in preparing phase
 
 * [Docker volume backup with bash script](https://github.com/Itersive/tutorials/tree/tutorial/docker-backup/Docker/backup)
+* Adding scp option to backups scripts
