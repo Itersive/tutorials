@@ -6,7 +6,13 @@
 
     <groupId>com.itersive</groupId>
     <artifactId>tutorial</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
+    <modules>
+        <module>api</module>
+        <module>web</module>
+    </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -17,6 +23,7 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
     </properties>
 
     <dependencies>
@@ -47,14 +54,5 @@
             <version>42.2.5</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
