@@ -100,7 +100,8 @@ if [ $container = "y" ]; then
     net=temp_backup_network
     docker network create $net &>/dev/null
     docker network connect $net $host
-    docker run --net $net -v $backup_dir:/backup mongo bash -c 'mongorestore /backup --host '$host':27017' &>/dev/null
+#    docker run --net $net -v $backup_dir:/backup/wekan mongo bash -c 'mongorestore /backup --host '$host':27017'
+    docker run --net $net -v /data/config/docker/$backup_dir:/backup mongo bash -c 'mongorestore --host '$host':27017 --db rocketchat --nsInclude '*.bson' /backup/rocketchat'
     docker network disconnect $net $host
     docker network rm $net &>/dev/null
 else

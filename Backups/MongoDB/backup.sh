@@ -84,7 +84,7 @@ fi
 
 host=$1
 temp_output=temp.tar.gz
-backup_dir=backup
+backup_dir=/home/docker/backup
 
 mkdir $backup_dir
 
@@ -92,7 +92,7 @@ if [ $container = "y" ]; then
     net=temp_backup_network
     docker network create $net &>/dev/null
     docker network connect $net $host
-    docker run --net $net -v $backup_dir:/backup mongo bash -c 'mongodump --out /backup --host '$host':27017' &>/dev/null
+    docker run --net $net -v $backup_dir:/backup --userns=host mongo bash -c 'mongodump --out /backup --host '$host':27017;' #&>/dev/null --userns=host
     docker network disconnect $net $host
     docker network rm $net &>/dev/null
 else
