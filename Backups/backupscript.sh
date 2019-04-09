@@ -29,6 +29,7 @@ runContBackup(){
             ;;
         mongodb)
             echo -e "Starting mongodb backup for $host"
+	    docker exec backupcontainer bash -c 'mongodump --gzip --archive=/backup/'$host'_$(date +%Y%m%d%H%M%S).gz --host='$host' --port='$port''
             ;;
     esac
     docker network disconnect $net $host &>/dev/null
