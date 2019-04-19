@@ -1,5 +1,6 @@
 #!/bin/bash
 
+hostPath=$1
 bckContRunningFlag=0
 net=temp_backup_network
 
@@ -32,13 +33,15 @@ runContBackup(){
 	    docker exec backupcontainer bash -c 'mongodump --gzip --archive=/backup/'$host'_$(date +%Y%m%d%H%M%S).gz --host='$host' --port='$port''
             ;;
     esac
+    # change permissions to docker:itersive on backup directory and contents
+    docker exec backupcontainer bash -c 'chown -R 4001:3000 /backup'
     docker network disconnect $net $host &>/dev/null
 }
 
 runContainer(){
     if [[ bckContRunningFlag -eq 0 ]]; then
         docker network create $net &>/dev/null
-        docker run -itd --net $net --rm -v /tmp:/backup --name backupcontainer --userns=host backupcontainer &>/dev/null
+        docker run -itd --net $net --rm -v /data/backup:/backup --name backupcontainer --userns=host backupcontainer &>/dev/null
 
         #checking if container started (3 times, 5 sec sleep)
         for i in 1 2 3; do
@@ -64,6 +67,12 @@ stopContainer(){
         docker rm -f backupcontainer
     fi
 }
+if [[ -z ${hostPath} ]]; then
+    echo "Please provide path to hostlist after ${0}
+    eg. ${0} /path/to/hostlist/file/
+    "
+    exit 1
+fi
 
 while IFS='= :' read cont key value; do
     counthosts=$(echo "$value" | tr -d ' ' | tr ',' '\n' | wc -l)
@@ -77,11 +86,11 @@ while IFS='= :' read cont key value; do
                 runContainer "$key" "$singlehost"
                 ;;
             *)
-                echo -e "running non container bakcup for $key $singlehost"
+                echo -e "running non container backup for $key $singlehost"
                 ;;
             esac
         i=$(($i+1))
     done
-done < hostlist
+done < ${hostPath}/hostlist
 
 stopContainer

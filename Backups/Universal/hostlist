@@ -1,0 +1,2 @@
+container:postgres=itersive_db,portfolio_postgres
+container:mongodb=wekan_mongo,chat_mongo,portfolio_mongo,wiki_mongo
