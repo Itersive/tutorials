@@ -25,12 +25,14 @@ runContBackup(){
 
     case $vendor in
         postgres)
+            currTimeDate=$(date +%Y%m%d%H%M%S)
             echo -e "Starting postgres backup for $host"
-            docker exec backupcontainer bash -c 'pg_basebackup -F t -z -h '$host' -p '$port' -U backupuser -w -X stream -D /backup/'$host'_$(date +%Y%m%d%H%M%S)'
+            docker exec backupcontainer bash -c 'pg_basebackup -F t -z -h '$host' -p '$port' -U backupuser -w -X stream -D /backup/dbbackup/'$host'_'$currTimeDate'; tar -cvzf /backup/dbbackup/'$host'_'$currTimeDate'.tar.gz -C /backup/dbbackup '$host'_'$currTimeDate'; rm -rf /backup/dbbackup/'$host'_'$currTimeDate''
             ;;
         mongodb)
+            currTimeDate=$(date +%Y%m%d%H%M%S)
             echo -e "Starting mongodb backup for $host"
-	    docker exec backupcontainer bash -c 'mongodump --gzip --archive=/backup/'$host'_$(date +%Y%m%d%H%M%S).gz --host='$host' --port='$port''
+	    docker exec backupcontainer bash -c 'mongodump --gzip --archive=/backup/dbbackup/'$host'_'$currTimeDate'.gz --host='$host' --port='$port''
             ;;
     esac
     # change permissions to docker:itersive on backup directory and contents
