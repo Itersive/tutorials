@@ -35,6 +35,9 @@ runContBackup(){
 	    docker exec backupcontainer bash -c 'mongodump --gzip --archive=/backup/dbbackup/'$host'_'$currTimeDate'.gz --host='$host' --port='$port''
             ;;
     esac
+
+    echo "Removing files older than 7 days"
+    docker exec backupcontainer bash -c 'find /backup/* -mtime +7 -exec rm {} \;'
     # change permissions to docker:itersive on backup directory and contents
     docker exec backupcontainer bash -c 'chown -R 4001:3000 /backup'
     docker network disconnect $net $host &>/dev/null
